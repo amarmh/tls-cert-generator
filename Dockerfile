@@ -1,4 +1,4 @@
-FROM fedora:27
+FROM fedora:34
 MAINTAINER Marcelo Moreira de Mello <tchello.mello@gmail.com>
 
 ENV PORT 8000
@@ -22,7 +22,7 @@ RUN chown django-app:django-app -R /home/django-app
 
 # set user
 USER django-app
-RUN /usr/bin/py3-virtualenv -p python3.6 /home/django-app/.virtualenv
+RUN /usr/bin/python3 -m virtualenv -p python3.9 /home/django-app/.virtualenv
 
 # set workdir
 WORKDIR /home/django-app/code
