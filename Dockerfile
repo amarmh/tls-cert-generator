@@ -1,6 +1,6 @@
 FROM fedora:34
 MAINTAINER Marcelo Moreira de Mello <tchello.mello@gmail.com>
-MAINTAINER Amar Huchchanavar <placeholder@example.com>
+MAINTAINER Amar Huchchanavar <ahuchcha@redhat.com>
 MAINTAINER Pablo N. Hess <phess@phess.org>
 
 
