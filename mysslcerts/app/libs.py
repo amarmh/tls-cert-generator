@@ -29,11 +29,11 @@ class CustomSat6Certs():
             self.zip_filename = 'certificates.zip'
 
     def create_ca(self, ca_country="", ca_state="", ca_city="",
-            ca_organization="", ca_organizational_unit="", ca_common_name="", ca_days=365, algo_hash="sha256"):
+            ca_organization="", ca_organizational_unit="", ca_common_name="", ca_days=365, algo_hash="sha256", ca_key_size=2048):
 
         #create key
         k = crypto.PKey()
-        k.generate_key(crypto.TYPE_RSA, 2048)
+        k.generate_key(crypto.TYPE_RSA, ca_key_size)
 
         #create a self-signed cert for CA use
         cert = crypto.X509()
@@ -122,7 +122,7 @@ class CustomSat6Certs():
 
     def create_cert(self, cert_country="", cert_state="", cert_city="",
             cert_organization="", cert_organizational_unit="", cert_common_name="",
-            alt_names_list="", cert_days=365, algo_hash="sha256"):
+            alt_names_list="", cert_days=365, algo_hash="sha256", cert_key_size=2048):
 
         if self.ca_certificate == None or self.ca_key == None:
             return "Missing CA certificate and key"
@@ -159,7 +159,7 @@ class CustomSat6Certs():
 
         #create key
         k = crypto.PKey()
-        k.generate_key(crypto.TYPE_RSA, 2048)
+        k.generate_key(crypto.TYPE_RSA, cert_key_size)
 
         #create csr PEM
         req.set_pubkey(k)
