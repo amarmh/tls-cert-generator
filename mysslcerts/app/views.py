@@ -20,7 +20,9 @@ def generate_ca_and_certificate(request):
             ca_organization = form.cleaned_data['ca_organization']
             ca_organizational_unit = form.cleaned_data['ca_organizational_unit']
             ca_days = form.cleaned_data['ca_days']
+            ca_key_size = form.cleaned_data['ca_key_size']
             ca_email = form.cleaned_data['ca_email']
+            ca_key_size = form.cleaned_data['ca_key_size']
 
             cert_common_name = form.cleaned_data['cert_common_name']
             cert_country = form.cleaned_data['cert_country']
@@ -29,6 +31,7 @@ def generate_ca_and_certificate(request):
             cert_organization = form.cleaned_data['cert_organization']
             cert_organizational_unit = form.cleaned_data['cert_organizational_unit']
             cert_days = form.cleaned_data['cert_days']
+            cert_key_size = form.cleaned_data['cert_key_size']
             cert_email = form.cleaned_data['cert_email']
             alt_names_list = form.cleaned_data['alt_names']
 
@@ -37,13 +40,13 @@ def generate_ca_and_certificate(request):
             #create CA
             obj.create_ca(ca_country=ca_country, ca_state=ca_state, ca_city=ca_city,
                     ca_organization=ca_organization, ca_organizational_unit=ca_organizational_unit,
-                    ca_common_name=ca_common_name, ca_days=ca_days)
+                    ca_common_name=ca_common_name, ca_days=ca_days, ca_key_size=ca_key_size)
 
             #create certificate
             obj.create_cert(cert_country=cert_country, cert_state=cert_state, cert_city=cert_city,
                     cert_organization=cert_organization, cert_organizational_unit=cert_organizational_unit,
                     cert_common_name=cert_common_name, cert_days=cert_days,
-                    alt_names_list=alt_names_list)
+                    alt_names_list=alt_names_list, cert_key_size=cert_key_size)
 
             zipfile = obj.get_zip()
             response = HttpResponse(zipfile, content_type='application/x-zip-compressed')
@@ -58,6 +61,7 @@ def generate_ca_and_certificate(request):
                                         'ca_organizational_unit' : DEFAULT_CA_OU,
                                         'ca_days'    : DEFAULT_CA_DAYS,
                                         'ca_email': DEFAULT_CA_EMAIL,
+                                        'ca_key_size'  : 2048,
 
                                         'cert_country' : DEFAULT_CERT_C,
                                         'cert_state'   : DEFAULT_CERT_ST,
@@ -66,6 +70,7 @@ def generate_ca_and_certificate(request):
                                         'cert_organizational_unit' : DEFAULT_CERT_OU,
                                         'cert_email': DEFAULT_CERT_EMAIL,
                                         'cert_days'    : DEFAULT_CERT_DAYS,
+                                        'cert_key_size'  : 2048,
                                         })
     return render(request, 'app/generate_ca_and_certificate.html', locals())
 
@@ -85,6 +90,7 @@ def generate_certificate_from_uploaded_CA(request):
             cert_organization = form.cleaned_data['cert_organization']
             cert_organizational_unit = form.cleaned_data['cert_organizational_unit']
             cert_days = form.cleaned_data['cert_days']
+            cert_key_size = form.cleaned_data['cert_key_size']
             cert_email = form.cleaned_data['cert_email']
             alt_names_list = form.cleaned_data['alt_names']
 
@@ -98,7 +104,7 @@ def generate_certificate_from_uploaded_CA(request):
             obj.create_cert(cert_country=cert_country, cert_state=cert_state, cert_city=cert_city,
                     cert_organization=cert_organization, cert_organizational_unit=cert_organizational_unit,
                     cert_common_name=cert_common_name, cert_days=cert_days,
-                    alt_names_list=alt_names_list)
+                    alt_names_list=alt_names_list, cert_key_size=cert_key_size)
 
             zipfile = obj.get_zip()
             response = HttpResponse(zipfile, content_type='application/x-zip-compressed')
@@ -113,6 +119,7 @@ def generate_certificate_from_uploaded_CA(request):
                                         'cert_organizational_unit' : DEFAULT_CERT_OU,
                                         'cert_days'    : DEFAULT_CERT_DAYS,
                                         'cert_email'   : DEFAULT_CERT_EMAIL,
+                                        'cert_key_size'    : 2048,
                                         })
     return render(request, 'app/generate_certificate_from_uploaded_CA.html', locals())
 
